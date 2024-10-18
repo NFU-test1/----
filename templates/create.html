@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Sentence</title>
+    <!-- 引入 Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container mt-4">
+        <h1 class="mb-3">Add New Sentence</h1>
+
+        <!-- 表單提交到一個處理新增句子的路由 -->
+        <form id="sentenceForm">
+            <div class="mb-3">
+                <label for="sentence" class="form-label">Sentence</label>
+                <input type="text" class="form-control" id="sentence" name="sentence" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Sentence</button>
+        </form>
+
+        <!-- 鏈接回首頁 -->
+        <a href="{{ url_for('index') }}" class="btn btn-secondary mt-3">Back to Home</a>
+    </div>
+
+    <script>
+        $(document).ready(function(){
+            $("#sentenceForm").submit(function(event){
+                event.preventDefault();
+                var sentence = $("#sentence").val();
+                $.ajax({
+                    url: "/create",
+                    type: "POST",
+                    data: { sentence: sentence },
+                    success: function(response){
+                        alert("Sentence added successfully!");
+                        $("#sentence").val(''); // 清空輸入框
+                    },
+                    error: function(xhr, status, error){
+                        alert("An error occurred.");
+                    }
+                });
+            });
+        });
+    </script>
+
+    <!-- 引入 Bootstrap JS 和 Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
